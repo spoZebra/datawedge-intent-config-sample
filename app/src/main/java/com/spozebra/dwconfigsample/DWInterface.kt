@@ -42,12 +42,13 @@ class DWInterface(private val context: Context) {
         var profileBundle = profile.buildProfile()
         sendDataWedgeIntentWithExtra(ACTION_DATAWEDGE, EXTRA_SET_CONFIG, profileBundle)
     }
-    fun updateProfile(profile : DWProfile, plugin : DWPlugin){
+    fun updateProfile(profileName: String, plugin : DWPlugin){
+        val profile = DWProfile(profileName)
         profile.configMode = "UPDATE"
         profile.pluginConfig = plugin
 
         var profileBundle = profile.buildProfile()
-        sendDataWedgeIntentWithExtra(ACTION_DATAWEDGE, EXTRA_SET_CONFIG, profileBundle)
+         sendDataWedgeIntentWithExtra(ACTION_DATAWEDGE, EXTRA_SET_CONFIG, profileBundle)
     }
 
      fun getVersionInfo(){
@@ -62,8 +63,20 @@ class DWInterface(private val context: Context) {
         val profileBundle = Bundle()
         profileBundle.putString("PROFILE_NAME", profileName)
         val pluginName: ArrayList<String> = ArrayList()
-        pluginName.add("BARCODE")
-        pluginName.add("INTENT")
+         pluginName.add("BARCODE")
+         pluginName.add("MSR")
+         pluginName.add("RFID")
+         pluginName.add("SERIAL")
+         pluginName.add("VOICE")
+         pluginName.add("WORKFLOW")
+         pluginName.add("BDF")
+         pluginName.add("ADF")
+         pluginName.add("TOKENS")
+         pluginName.add("INTENT")
+         pluginName.add("KEYSTROKE")
+         pluginName.add("IP")
+         pluginName.add("DCP")
+         pluginName.add("EKB")
 
         val bConfig = Bundle()
         bConfig.putStringArrayList("PLUGIN_NAME", pluginName)

@@ -24,6 +24,10 @@ class DWPlugin {
         return _paramList.keys.toList();
     }
 
+    fun getParamasUpdatdCount(): Int {
+        return _paramList.values.count { x -> x.changed }
+    }
+
     internal fun buildPluginBundle() : Bundle {
         // Create plugin
         val pluginBundle = Bundle()

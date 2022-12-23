@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val selectedPlugin: String = spinnerPlugin.selectedItem.toString()
                 val paramAdapter = ArrayAdapter(applicationContext,android.R.layout.simple_spinner_item,
-                    pluginList.first { x -> x.pluginName == selectedPlugin }.getAllParams())
+                    pluginList.first { x -> x.pluginName == selectedPlugin }.getAllParams().sortedBy { x -> x })
                 spinnerParameter.adapter = paramAdapter
             }
 
@@ -180,6 +180,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateParamValue(){
+        editTextParamValue.clearFocus()
         val selectedParam = spinnerParameter.selectedItem.toString()
         pluginList.first { x -> x.pluginName == spinnerPlugin.selectedItem.toString() }.updateParam(selectedParam, editTextParamValue.text.toString())
     }
@@ -188,7 +189,9 @@ class MainActivity : AppCompatActivity() {
         updateParamValue()
         val selectedProfile = spinnerProfile.selectedItem.toString()
         val selectedPlugin = spinnerPlugin.selectedItem.toString()
-        dwInterface.updateProfile(profileList.first{x -> x.profileName == selectedProfile}, pluginList.first { x -> x.pluginName == selectedPlugin })
+        editTextLog.append("Applying ${pluginList.sumOf { x -> x.getParamasUpdatdCount() }} modifications\n")
+        dwInterface.updateProfile(selectedProfile, pluginList.first { x -> x.pluginName == selectedPlugin })
+        editTextLog.append("New config applied\n")
     }
 
     // Create filter for the broadcast intent
@@ -207,7 +210,7 @@ class MainActivity : AppCompatActivity() {
     fun newBarcodeScanned(barcode: String?) {
         runOnUiThread {
             val lines = barcode!!.split('\t').count()
-            editTextLog.append("--- DATA: $lines Barcode ---\n")
+            editTextLog.append("--- NEW BARCODE SCANNED ---\n")
             editTextLog.append(barcode + "\n")
             editTextLog.append("--- END ---\n\n")
         }
