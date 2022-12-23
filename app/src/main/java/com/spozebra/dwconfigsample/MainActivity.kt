@@ -38,21 +38,28 @@ class MainActivity : AppCompatActivity() {
 
         override fun onReceive(context: Context?, intent: Intent) {
             val action = intent.action
+            // NEW Barcode scanned
             if (action == "com.spozebra.dwconfigsample.ACTION") {
                 val decodedData: String? = intent.getStringExtra("com.symbol.datawedge.data_string")
                 this@MainActivity.newBarcodeScanned(decodedData)
             }
-             if (action.equals("com.symbol.datawedge.api.RESULT_ACTION")) {
-                 if (intent.hasExtra("com.symbol.datawedge.api.RESULT_GET_VERSION_INFO")) {
-                     val res = intent.getBundleExtra("com.symbol.datawedge.api.RESULT_GET_VERSION_INFO")
-                     val dwVersion = res!!.getString("DATAWEDGE")
-                     val decoderVersion = res.getString("DECODER_LIBRARY")
-                     val fullVersion = "DataWedge:$dwVersion\nDecoderLib:$decoderVersion"
-                     this@MainActivity.dwVersionReceived(fullVersion)
-                 } else if (intent.hasExtra("com.symbol.datawedge.api.RESULT_GET_PROFILES_LIST")) {
-                     var profilesList = intent.getStringArrayExtra ("com.symbol.datawedge.api.RESULT_GET_PROFILES_LIST")
-                     this@MainActivity.dwProfilesReceived(profilesList!!.map { x -> DWProfile(x) }.toList())
-                 }else if (intent.hasExtra("com.symbol.datawedge.api.RESULT_GET_CONFIG")) {
+            // DW Api result
+            else if (action.equals("com.symbol.datawedge.api.RESULT_ACTION")) {
+                // Get version
+                if (intent.hasExtra("com.symbol.datawedge.api.RESULT_GET_VERSION_INFO")) {
+                    val res = intent.getBundleExtra("com.symbol.datawedge.api.RESULT_GET_VERSION_INFO")
+                    val dwVersion = res!!.getString("DATAWEDGE")
+                    val decoderVersion = res.getString("DECODER_LIBRARY")
+                    val fullVersion = "DataWedge:$dwVersion\nDecoderLib:$decoderVersion"
+                    this@MainActivity.dwVersionReceived(fullVersion)
+                }
+                // Get profiles list
+                else if (intent.hasExtra("com.symbol.datawedge.api.RESULT_GET_PROFILES_LIST")) {
+                    var profilesList = intent.getStringArrayExtra ("com.symbol.datawedge.api.RESULT_GET_PROFILES_LIST")
+                    this@MainActivity.dwProfilesReceived(profilesList!!.map { x -> DWProfile(x) }.toList())
+                }
+                // Get configuration
+                else if (intent.hasExtra("com.symbol.datawedge.api.RESULT_GET_CONFIG")) {
                     val pluginList = ArrayList<DWPlugin>()
 
                     val resultGetConfig = intent.getBundleExtra("com.symbol.datawedge.api.RESULT_GET_CONFIG")
@@ -82,9 +89,8 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    val status = "Get config info received"
-                    Log.d("TAG", "#IntentApp#\n\n" + status)
-                     this@MainActivity.dwConfigReceived(pluginList)
+
+                    this@MainActivity.dwConfigReceived(pluginList)
                 }
             }
 

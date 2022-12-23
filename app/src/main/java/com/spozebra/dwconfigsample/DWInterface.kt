@@ -42,16 +42,17 @@ class DWInterface(private val context: Context) {
         var profileBundle = profile.buildProfile()
         sendDataWedgeIntentWithExtra(ACTION_DATAWEDGE, EXTRA_SET_CONFIG, profileBundle)
     }
+
     fun updateProfile(profileName: String, plugin : DWPlugin){
         val profile = DWProfile(profileName)
         profile.configMode = "UPDATE"
         profile.pluginConfig = plugin
 
         var profileBundle = profile.buildProfile()
-         sendDataWedgeIntentWithExtra(ACTION_DATAWEDGE, EXTRA_SET_CONFIG, profileBundle)
+        sendDataWedgeIntentWithExtra(ACTION_DATAWEDGE, EXTRA_SET_CONFIG, profileBundle)
     }
 
-     fun getVersionInfo(){
+    fun getVersionInfo(){
         sendDataWedgeIntentWithExtra(ACTION_DATAWEDGE, EXTRA_GET_VERSION, "")
     }
 
@@ -59,24 +60,24 @@ class DWInterface(private val context: Context) {
         sendDataWedgeIntentWithExtra(ACTION_DATAWEDGE, EXTRA_GET_PROFILES, "")
     }
 
-     fun getProfileConfiguration(profileName : String){
+    fun getProfileConfiguration(profileName : String){
         val profileBundle = Bundle()
         profileBundle.putString("PROFILE_NAME", profileName)
         val pluginName: ArrayList<String> = ArrayList()
-         pluginName.add("BARCODE")
-         pluginName.add("MSR")
-         pluginName.add("RFID")
-         pluginName.add("SERIAL")
-         pluginName.add("VOICE")
-         pluginName.add("WORKFLOW")
-         pluginName.add("BDF")
-         pluginName.add("ADF")
-         pluginName.add("TOKENS")
-         pluginName.add("INTENT")
-         pluginName.add("KEYSTROKE")
-         pluginName.add("IP")
-         pluginName.add("DCP")
-         pluginName.add("EKB")
+        pluginName.add("BARCODE")
+        pluginName.add("MSR")
+        pluginName.add("RFID")
+        pluginName.add("SERIAL")
+        pluginName.add("VOICE")
+        pluginName.add("WORKFLOW")
+        pluginName.add("BDF")
+        pluginName.add("ADF")
+        pluginName.add("TOKENS")
+        pluginName.add("INTENT")
+        pluginName.add("KEYSTROKE")
+        pluginName.add("IP")
+        pluginName.add("DCP")
+        pluginName.add("EKB")
 
         val bConfig = Bundle()
         bConfig.putStringArrayList("PLUGIN_NAME", pluginName)
